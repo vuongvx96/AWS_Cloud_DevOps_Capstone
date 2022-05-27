@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
 using GloboTicket.TicketManagement.Application.Contracts.Persistence;
 using GloboTicket.TicketManagement.Application.Features.Categories.Commands.CreateCateogry;
 using GloboTicket.TicketManagement.Application.Profiles;
@@ -6,8 +8,6 @@ using GloboTicket.TicketManagement.Application.UnitTests.Mocks;
 using GloboTicket.TicketManagement.Domain.Entities;
 using Moq;
 using Shouldly;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace GloboTicket.TicketManagement.Application.UnitTests.Categories.Commands

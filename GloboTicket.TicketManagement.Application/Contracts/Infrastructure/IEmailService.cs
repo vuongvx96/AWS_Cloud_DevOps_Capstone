@@ -1,5 +1,5 @@
-﻿using GloboTicket.TicketManagement.Application.Models.Mail;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using GloboTicket.TicketManagement.Application.Models.Mail;
 
 namespace GloboTicket.TicketManagement.Application.Contracts.Infrastructure
 {

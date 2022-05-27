@@ -1,8 +1,8 @@
-﻿using FluentValidation;
-using GloboTicket.TicketManagement.Application.Contracts.Persistence;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation;
+using GloboTicket.TicketManagement.Application.Contracts.Persistence;
 
 namespace GloboTicket.TicketManagement.Application.Features.Events.Commands.CreateEvent
 {

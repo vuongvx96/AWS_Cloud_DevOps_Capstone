@@ -1,7 +1,7 @@
-﻿using GloboTicket.TicketManagement.Application.Contracts.Identity;
+﻿using System.Threading.Tasks;
+using GloboTicket.TicketManagement.Application.Contracts.Identity;
 using GloboTicket.TicketManagement.Application.Models.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.Api.Controllers
 {

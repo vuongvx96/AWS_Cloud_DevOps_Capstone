@@ -1,13 +1,13 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
 using GloboTicket.TicketManagement.Application.Contracts.Infrastructure;
 using GloboTicket.TicketManagement.Application.Contracts.Persistence;
 using GloboTicket.TicketManagement.Application.Models.Mail;
 using GloboTicket.TicketManagement.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.Application.Features.Events.Commands.CreateEvent
 {
@@ -17,7 +17,6 @@ namespace GloboTicket.TicketManagement.Application.Features.Events.Commands.Crea
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
         private readonly ILogger<CreateEventCommandHandler> _logger;
-
 
         public CreateEventCommandHandler(IMapper mapper, IEventRepository eventRepository, IEmailService emailService, ILogger<CreateEventCommandHandler> logger)
         {
@@ -39,7 +38,7 @@ namespace GloboTicket.TicketManagement.Application.Features.Events.Commands.Crea
 
             @event = await _eventRepository.AddAsync(@event);
 
-            //Sending email notification to admin address
+            // Sending email notification to admin address
             var email = new Email() { To = "gill@snowball.be", Body = $"A new event was created: {request}", Subject = "A new event was created" };
 
             try
@@ -48,7 +47,7 @@ namespace GloboTicket.TicketManagement.Application.Features.Events.Commands.Crea
             }
             catch (Exception ex)
             {
-                //this shouldn't stop the API from doing else so this can be logged
+                // this shouldn't stop the API from doing else so this can be logged
                 _logger.LogError($"Mailing about event {@event.EventId} failed due to an error with the mail service: {ex.Message}");
             }
 

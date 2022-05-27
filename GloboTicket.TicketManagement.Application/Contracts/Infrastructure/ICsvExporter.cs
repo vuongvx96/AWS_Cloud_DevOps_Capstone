@@ -1,5 +1,5 @@
-﻿using GloboTicket.TicketManagement.Application.Features.Events.Queries.GetEventsExport;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using GloboTicket.TicketManagement.Application.Features.Events.Queries.GetEventsExport;
 
 namespace GloboTicket.TicketManagement.Application.Contracts.Infrastructure
 {

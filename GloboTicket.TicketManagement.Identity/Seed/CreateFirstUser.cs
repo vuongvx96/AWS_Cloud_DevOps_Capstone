@@ -1,6 +1,6 @@
-﻿using GloboTicket.TicketManagement.Identity.Models;
+﻿using System.Threading.Tasks;
+using GloboTicket.TicketManagement.Identity.Models;
 using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.Identity.Seed
 {

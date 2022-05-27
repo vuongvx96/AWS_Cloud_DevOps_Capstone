@@ -1,8 +1,8 @@
-﻿using GloboTicket.TicketManagement.Application.Contracts.Persistence;
-using GloboTicket.TicketManagement.Domain.Entities;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using GloboTicket.TicketManagement.Application.Contracts.Persistence;
+using GloboTicket.TicketManagement.Domain.Entities;
 
 namespace GloboTicket.TicketManagement.Persistence.Repositories
 {

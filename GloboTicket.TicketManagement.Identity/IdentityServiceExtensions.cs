@@ -1,4 +1,6 @@
-﻿using GloboTicket.TicketManagement.Application.Contracts.Identity;
+﻿using System;
+using System.Text;
+using GloboTicket.TicketManagement.Application.Contracts.Identity;
 using GloboTicket.TicketManagement.Application.Models.Authentication;
 using GloboTicket.TicketManagement.Identity.Models;
 using GloboTicket.TicketManagement.Identity.Services;
@@ -10,8 +12,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using System;
-using System.Text;
 
 namespace GloboTicket.TicketManagement.Identity
 {

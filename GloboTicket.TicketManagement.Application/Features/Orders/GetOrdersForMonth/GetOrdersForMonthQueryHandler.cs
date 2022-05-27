@@ -1,9 +1,9 @@
-﻿using AutoMapper;
-using GloboTicket.TicketManagement.Application.Contracts.Persistence;
-using MediatR;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using GloboTicket.TicketManagement.Application.Contracts.Persistence;
+using MediatR;
 
 namespace GloboTicket.TicketManagement.Application.Features.Orders.GetOrdersForMonth
 {

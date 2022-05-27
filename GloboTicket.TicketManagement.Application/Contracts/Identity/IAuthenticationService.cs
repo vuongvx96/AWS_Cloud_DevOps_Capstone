@@ -1,5 +1,5 @@
-﻿using GloboTicket.TicketManagement.Application.Models.Authentication;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using GloboTicket.TicketManagement.Application.Models.Authentication;
 
 namespace GloboTicket.TicketManagement.Application.Contracts.Identity
 {

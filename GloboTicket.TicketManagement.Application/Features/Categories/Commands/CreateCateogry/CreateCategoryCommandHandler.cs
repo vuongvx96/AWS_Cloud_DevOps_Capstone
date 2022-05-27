@@ -1,10 +1,10 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
 using GloboTicket.TicketManagement.Application.Contracts.Persistence;
 using GloboTicket.TicketManagement.Domain.Entities;
 using MediatR;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.Application.Features.Categories.Commands.CreateCateogry
 {
@@ -35,6 +35,7 @@ namespace GloboTicket.TicketManagement.Application.Features.Categories.Commands.
                     createCategoryCommandResponse.ValidationErrors.Add(error.ErrorMessage);
                 }
             }
+
             if (createCategoryCommandResponse.Success)
             {
                 var category = new Category() { Name = request.Name };

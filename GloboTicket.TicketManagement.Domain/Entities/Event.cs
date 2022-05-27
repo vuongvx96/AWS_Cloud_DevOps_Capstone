@@ -1,5 +1,5 @@
-﻿using GloboTicket.TicketManagement.Domain.Common;
-using System;
+﻿using System;
+using GloboTicket.TicketManagement.Domain.Common;
 
 namespace GloboTicket.TicketManagement.Domain.Entities
 {
@@ -14,6 +14,5 @@ namespace GloboTicket.TicketManagement.Domain.Entities
         public string ImageUrl { get; set; }
         public Guid CategoryId { get; set; }
         public Category Category { get; set; }
-
     }
 }

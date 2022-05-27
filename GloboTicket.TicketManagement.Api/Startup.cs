@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using GloboTicket.TicketManagement.Api.Middleware;
 using GloboTicket.TicketManagement.Api.Services;
 using GloboTicket.TicketManagement.Api.Utility;
@@ -13,7 +14,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using System.Collections.Generic;
 
 namespace GloboTicket.TicketManagement.Api
 {
@@ -71,20 +71,18 @@ namespace GloboTicket.TicketManagement.Api
                             Type = ReferenceType.SecurityScheme,
                             Id = "Bearer"
                           },
-                          Scheme = "oauth2",
-                          Name = "Bearer",
-                          In = ParameterLocation.Header,
-
-                        },
-                        new List<string>()
-                      }
-                    });
+                        Scheme = "oauth2",
+                        Name = "Bearer",
+                        In = ParameterLocation.Header,
+                      },
+                      new List<string>()
+                    }
+                  });
 
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
                     Title = "GloboTicket Ticket Management API",
-
                 });
 
                 c.OperationFilter<FileResultContentTypeOperationFilter>();

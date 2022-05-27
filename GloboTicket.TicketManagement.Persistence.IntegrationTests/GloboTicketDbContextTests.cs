@@ -1,9 +1,9 @@
+using System;
 using GloboTicket.TicketManagement.Application.Contracts;
 using GloboTicket.TicketManagement.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Shouldly;
-using System;
 using Xunit;
 
 namespace GloboTicket.TicketManagement.Persistence.IntegrationTests

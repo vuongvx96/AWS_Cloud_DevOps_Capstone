@@ -1,10 +1,10 @@
-﻿using AutoMapper;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
 using GloboTicket.TicketManagement.Application.Contracts.Persistence;
 using GloboTicket.TicketManagement.Application.Exceptions;
 using GloboTicket.TicketManagement.Domain.Entities;
 using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.Application.Features.Events.Queries.GetEventDetail
 {
@@ -32,6 +32,7 @@ namespace GloboTicket.TicketManagement.Application.Features.Events.Queries.GetEv
             {
                 throw new NotFoundException(nameof(Event), request.Id);
             }
+
             eventDetailDto.Category = _mapper.Map<CategoryDto>(category);
 
             return eventDetailDto;

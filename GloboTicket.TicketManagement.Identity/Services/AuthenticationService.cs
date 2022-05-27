@@ -1,16 +1,16 @@
-﻿using GloboTicket.TicketManagement.Application.Contracts.Identity;
-using GloboTicket.TicketManagement.Application.Models.Authentication;
-using GloboTicket.TicketManagement.Identity.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using GloboTicket.TicketManagement.Application.Contracts.Identity;
+using GloboTicket.TicketManagement.Application.Models.Authentication;
+using GloboTicket.TicketManagement.Identity.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GloboTicket.TicketManagement.Identity.Services
 {
@@ -20,7 +20,8 @@ namespace GloboTicket.TicketManagement.Identity.Services
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly JwtSettings _jwtSettings;
 
-        public AuthenticationService(UserManager<ApplicationUser> userManager,
+        public AuthenticationService(
+            UserManager<ApplicationUser> userManager,
             IOptions<JwtSettings> jwtSettings,
             SignInManager<ApplicationUser> signInManager)
         {

@@ -1,6 +1,6 @@
-﻿using FluentValidation.Results;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using FluentValidation.Results;
 
 namespace GloboTicket.TicketManagement.Application.Exceptions
 {

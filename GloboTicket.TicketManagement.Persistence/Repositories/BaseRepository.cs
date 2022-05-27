@@ -1,13 +1,14 @@
-﻿using GloboTicket.TicketManagement.Application.Contracts.Persistence;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GloboTicket.TicketManagement.Application.Contracts.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace GloboTicket.TicketManagement.Persistence.Repositories
 {
-    public class BaseRepository<T> : IAsyncRepository<T> where T : class
+    public class BaseRepository<T> : IAsyncRepository<T>
+        where T : class
     {
         protected readonly GloboTicketDbContext _dbContext;
 

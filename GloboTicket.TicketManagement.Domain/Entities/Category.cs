@@ -1,6 +1,6 @@
-﻿using GloboTicket.TicketManagement.Domain.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using GloboTicket.TicketManagement.Domain.Common;
 
 namespace GloboTicket.TicketManagement.Domain.Entities
 {

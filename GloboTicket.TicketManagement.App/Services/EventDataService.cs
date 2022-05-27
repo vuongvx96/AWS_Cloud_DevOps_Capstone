@@ -8,7 +8,6 @@ namespace GloboTicket.TicketManagement.App.Services
 {
     public class EventDataService : BaseDataService, IEventDataService
     {
-
         private readonly IMapper _mapper;
 
         public EventDataService(IClient client, IMapper mapper, ILocalStorageService localStorage) : base(client, localStorage)

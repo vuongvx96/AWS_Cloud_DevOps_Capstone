@@ -4,7 +4,18 @@ orbs:
   windows: circleci/windows@2.4.1
 
 jobs:
-  checking
+  linting:
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:6.0-focal
+    steps:
+      - checkout
+      - run:
+          name: Install project dependencies
+          command: dotnet restore
+      - run:
+          name: Run Code Linting
+          command: dotnet build --no-incremental
+
   build-backend:
     docker:
       - image: mcr.microsoft.com/dotnet/sdk:6.0-focal
@@ -73,10 +84,13 @@ jobs:
 workflows:
   default:
     jobs:
-      - build-backend
-      - build-frontend
+      - linting
+      - build-backend:
+          requires: [linting]
+      - build-frontend:
+          requires: [linting]
       - unit-test:
           requires: [build-backend]
       - integration-test:
-          requires: [build-backend]        
+          requires: [build-backend]
           

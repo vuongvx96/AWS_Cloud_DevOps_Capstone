@@ -1,3 +1,4 @@
+using System.Reflection;
 using Blazored.LocalStorage;
 using GloboTicket.TicketManagement.App;
 using GloboTicket.TicketManagement.App.Auth;
@@ -6,7 +7,6 @@ using GloboTicket.TicketManagement.App.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using System.Reflection;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("app");

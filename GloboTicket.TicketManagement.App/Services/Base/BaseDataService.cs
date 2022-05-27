@@ -1,5 +1,5 @@
-﻿using Blazored.LocalStorage;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
+using Blazored.LocalStorage;
 
 namespace GloboTicket.TicketManagement.App.Services.Base
 {
@@ -13,7 +13,6 @@ namespace GloboTicket.TicketManagement.App.Services.Base
         {
             _client = client;
             _localStorage = localStorage;
-
         }
 
         protected ApiResponse<Guid> ConvertApiExceptions<Guid>(ApiException ex)

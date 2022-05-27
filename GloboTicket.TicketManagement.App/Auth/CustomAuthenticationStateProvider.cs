@@ -1,7 +1,7 @@
-﻿using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components.Authorization;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Text.Json;
+using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace GloboTicket.TicketManagement.App.Auth
 {
@@ -80,6 +80,7 @@ namespace GloboTicket.TicketManagement.App.Auth
                 case 2: base64 += "=="; break;
                 case 3: base64 += "="; break;
             }
+
             return Convert.FromBase64String(base64);
         }
     }

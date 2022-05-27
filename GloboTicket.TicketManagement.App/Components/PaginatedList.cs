@@ -4,7 +4,6 @@
     {
         public PaginatedList()
         {
-
         }
 
         public int PageIndex { get; set; }
@@ -23,19 +22,13 @@
 
         public bool HasPreviousPage
         {
-            get
-            {
-                return (PageIndex > 1);
-            }
+            get { return PageIndex > 1; }
             set { }
         }
 
         public bool HasNextPage
         {
-            get
-            {
-                return (PageIndex < TotalPages);
-            }
+            get { return PageIndex < TotalPages; }
             set { }
         }
     }

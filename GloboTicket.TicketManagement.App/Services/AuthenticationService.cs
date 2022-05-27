@@ -1,9 +1,9 @@
-﻿using Blazored.LocalStorage;
+﻿using System.Net.Http.Headers;
+using Blazored.LocalStorage;
 using GloboTicket.TicketManagement.App.Auth;
 using GloboTicket.TicketManagement.App.Contracts;
 using GloboTicket.TicketManagement.App.Services.Base;
 using Microsoft.AspNetCore.Components.Authorization;
-using System.Net.Http.Headers;
 
 namespace GloboTicket.TicketManagement.App.Services
 {
@@ -30,6 +30,7 @@ namespace GloboTicket.TicketManagement.App.Services
                     _client.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", authenticationResponse.Token);
                     return true;
                 }
+
                 return false;
             }
             catch
@@ -47,6 +48,7 @@ namespace GloboTicket.TicketManagement.App.Services
             {
                 return true;
             }
+
             return false;
         }
 

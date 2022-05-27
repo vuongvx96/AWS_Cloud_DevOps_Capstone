@@ -22,7 +22,6 @@ namespace GloboTicket.TicketManagement.App.Services
             var allCategories = await _client.GetAllCategoriesAsync();
             var mappedCategories = _mapper.Map<ICollection<CategoryViewModel>>(allCategories);
             return mappedCategories.ToList();
-
         }
 
         public async Task<List<CategoryEventsViewModel>> GetAllCategoriesWithEvents(bool includeHistory)
@@ -32,7 +31,6 @@ namespace GloboTicket.TicketManagement.App.Services
             var allCategories = await _client.GetCategoriesWithEventsAsync(includeHistory);
             var mappedCategories = _mapper.Map<ICollection<CategoryEventsViewModel>>(allCategories);
             return mappedCategories.ToList();
-
         }
 
         public async Task<ApiResponse<CategoryDto>> CreateCategory(CategoryViewModel categoryViewModel)
@@ -55,6 +53,7 @@ namespace GloboTicket.TicketManagement.App.Services
                         apiResponse.ValidationErrors += error + Environment.NewLine;
                     }
                 }
+
                 return apiResponse;
             }
             catch (ApiException ex)

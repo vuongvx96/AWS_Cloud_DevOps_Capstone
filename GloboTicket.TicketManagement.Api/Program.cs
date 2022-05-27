@@ -16,6 +16,9 @@ namespace GloboTicket.TicketManagement.Api
     {
         public async static Task Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .CreateBootstrapLogger();
             try
             {
                 var config = new ConfigurationBuilder()
@@ -62,7 +65,7 @@ namespace GloboTicket.TicketManagement.Api
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-             .UseSerilog()
+            .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

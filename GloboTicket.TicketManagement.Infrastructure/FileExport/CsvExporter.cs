@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 
-namespace GloboTicket.TicketManagement.Infrastructure
+namespace GloboTicket.TicketManagement.Infrastructure.FileExport
 {
     public class CsvExporter : ICsvExporter
     {

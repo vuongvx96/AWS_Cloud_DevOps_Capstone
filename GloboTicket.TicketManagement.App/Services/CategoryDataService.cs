@@ -3,10 +3,6 @@ using Blazored.LocalStorage;
 using GloboTicket.TicketManagement.App.Contracts;
 using GloboTicket.TicketManagement.App.Services.Base;
 using GloboTicket.TicketManagement.App.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.App.Services
 {
@@ -14,7 +10,7 @@ namespace GloboTicket.TicketManagement.App.Services
     {
         private readonly IMapper _mapper;
 
-        public CategoryDataService(IClient client, IMapper mapper, ILocalStorageService localStorage): base(client, localStorage)
+        public CategoryDataService(IClient client, IMapper mapper, ILocalStorageService localStorage) : base(client, localStorage)
         {
             _mapper = mapper;
         }

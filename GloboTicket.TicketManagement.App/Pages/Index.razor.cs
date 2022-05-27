@@ -2,7 +2,6 @@
 using GloboTicket.TicketManagement.App.Contracts;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.App.Pages
 {

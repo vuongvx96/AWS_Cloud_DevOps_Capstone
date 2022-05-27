@@ -1,6 +1,4 @@
-﻿using System.Net.Http;
-
-namespace GloboTicket.TicketManagement.App.Services
+﻿namespace GloboTicket.TicketManagement.App.Services
 {
     public partial interface IClient
     {

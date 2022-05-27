@@ -3,7 +3,7 @@ using System;
 
 namespace GloboTicket.TicketManagement.Domain.Entities
 {
-    public class Event: AuditableEntity
+    public class Event : AuditableEntity
     {
         public Guid EventId { get; set; }
         public string Name { get; set; }

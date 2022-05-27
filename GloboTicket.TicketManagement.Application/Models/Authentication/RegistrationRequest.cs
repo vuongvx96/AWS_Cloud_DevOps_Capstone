@@ -4,7 +4,7 @@ namespace GloboTicket.TicketManagement.Application.Models.Authentication
 {
     public class RegistrationRequest
     {
-        [Required] 
+        [Required]
         public string FirstName { get; set; }
 
         [Required]

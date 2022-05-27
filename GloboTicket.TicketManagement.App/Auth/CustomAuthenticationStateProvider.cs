@@ -1,11 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.App.Auth
 {
@@ -13,7 +9,7 @@ namespace GloboTicket.TicketManagement.App.Auth
     {
         private readonly ILocalStorageService _localStorage;
 
-        public CustomAuthenticationStateProvider( ILocalStorageService localStorage)
+        public CustomAuthenticationStateProvider(ILocalStorageService localStorage)
         {
             _localStorage = localStorage;
         }

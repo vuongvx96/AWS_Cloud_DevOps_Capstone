@@ -1,0 +1,53 @@
+version: 2.1
+orbs:
+  slack: circleci/slack@4.1
+  windows: circleci/windows@2.4.1
+
+jobs:
+  build-backend:
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:6.0-focal
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dotnet-packages-v1-{{ checksum "GloboTicket.TicketManagement.Api/GloboTicket.TicketManagement.Api.csproj" }}
+      - run:
+          name: "Install project dependencies"
+          command: dotnet restore
+      - run:
+          name: Build backend-end
+          command: |
+            cd GloboTicket.TicketManagement.Api
+            dotnet build
+      - save_cache:
+          paths:
+            - /root/.nuget/packages
+          key: dotnet-packages-v1-{{ checksum "GloboTicket.TicketManagement.Api/GloboTicket.TicketManagement.Api.csproj" }}
+
+  build-frontend:
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:6.0-focal
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dotnet-packages-v1-{{ checksum "GloboTicket.TicketManagement.App/GloboTicket.TicketManagement.App.csproj" }}
+      - run:
+          name: "Install project dependencies"
+          command: dotnet restore
+      - run:
+          name: Build front-end
+          command: |
+            cd GloboTicket.TicketManagement.App
+            dotnet build
+      - save_cache:
+          paths:
+            - /root/.nuget/packages
+          key: dotnet-packages-v1-{{ checksum "GloboTicket.TicketManagement.App/GloboTicket.TicketManagement.App.csproj" }}
+
+workflows:
+  default:
+    jobs:
+      - build-backend
+      - build-frontend

@@ -2,10 +2,6 @@
 using GloboTicket.TicketManagement.App.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.App.Pages
 {

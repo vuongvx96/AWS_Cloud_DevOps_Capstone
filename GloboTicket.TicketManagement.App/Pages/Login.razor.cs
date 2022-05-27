@@ -7,7 +7,7 @@ namespace GloboTicket.TicketManagement.App.Pages
     public partial class Login
     {
         public LoginViewModel LoginViewModel { get; set; }
-        
+
         [Inject]
         public NavigationManager NavigationManager { get; set; }
         public string Message { get; set; }
@@ -17,7 +17,7 @@ namespace GloboTicket.TicketManagement.App.Pages
 
         public Login()
         {
-            
+
         }
 
         protected override void OnInitialized()

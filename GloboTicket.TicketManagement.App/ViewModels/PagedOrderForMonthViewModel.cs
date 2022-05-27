@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace GloboTicket.TicketManagement.App.ViewModels
+﻿namespace GloboTicket.TicketManagement.App.ViewModels
 {
     public class PagedOrderForMonthViewModel
     {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace GloboTicket.TicketManagement.App.Components
+﻿namespace GloboTicket.TicketManagement.App.Components
 {
     public class PaginatedList<T>
     {

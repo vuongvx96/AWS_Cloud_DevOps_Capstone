@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace GloboTicket.TicketManagement.App.Contracts
+﻿namespace GloboTicket.TicketManagement.App.Contracts
 {
     public interface IAuthenticationService
     {

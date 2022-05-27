@@ -3,9 +3,7 @@ using GloboTicket.TicketManagement.App.Auth;
 using GloboTicket.TicketManagement.App.Contracts;
 using GloboTicket.TicketManagement.App.Services.Base;
 using Microsoft.AspNetCore.Components.Authorization;
-using System;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.App.Services
 {
@@ -34,7 +32,7 @@ namespace GloboTicket.TicketManagement.App.Services
                 }
                 return false;
             }
-            catch 
+            catch
             {
                 return false;
             }

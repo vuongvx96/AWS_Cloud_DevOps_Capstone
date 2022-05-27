@@ -2,10 +2,7 @@
 using GloboTicket.TicketManagement.App.Services.Base;
 using GloboTicket.TicketManagement.App.ViewModels;
 using Microsoft.AspNetCore.Components;
-using System;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.App.Pages
 {
@@ -20,10 +17,10 @@ namespace GloboTicket.TicketManagement.App.Pages
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
-        public EventDetailViewModel EventDetailViewModel { get; set; } 
+        public EventDetailViewModel EventDetailViewModel { get; set; }
             = new EventDetailViewModel() { Date = DateTime.Now.AddDays(1) };
 
-        public ObservableCollection<CategoryViewModel> Categories { get; set; } 
+        public ObservableCollection<CategoryViewModel> Categories { get; set; }
             = new ObservableCollection<CategoryViewModel>();
 
         public string Message { get; set; }
@@ -57,7 +54,7 @@ namespace GloboTicket.TicketManagement.App.Pages
             }
             else
             {
-                 response = await EventDataService.UpdateEvent(EventDetailViewModel);
+                response = await EventDataService.UpdateEvent(EventDetailViewModel);
             }
             HandleResponse(response);
 

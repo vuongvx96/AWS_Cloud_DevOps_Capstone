@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GloboTicket.TicketManagement.App.ViewModels
+﻿namespace GloboTicket.TicketManagement.App.ViewModels
 {
     public class EventListViewModel
     {

@@ -1,6 +1,4 @@
 ﻿using GloboTicket.TicketManagement.App.ViewModels;
-using System;
-using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.App.Contracts
 {

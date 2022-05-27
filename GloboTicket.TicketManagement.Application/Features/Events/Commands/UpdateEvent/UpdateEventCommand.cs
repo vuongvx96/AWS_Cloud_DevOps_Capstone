@@ -3,7 +3,7 @@ using System;
 
 namespace GloboTicket.TicketManagement.Application.Features.Events.Commands.UpdateEvent
 {
-    public class UpdateEventCommand: IRequest
+    public class UpdateEventCommand : IRequest
     {
         public Guid EventId { get; set; }
         public string Name { get; set; }

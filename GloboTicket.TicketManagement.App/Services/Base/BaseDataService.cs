@@ -1,13 +1,12 @@
 ﻿using Blazored.LocalStorage;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.App.Services.Base
 {
     public class BaseDataService
     {
         protected readonly ILocalStorageService _localStorage;
-        
+
         protected IClient _client;
 
         public BaseDataService(IClient client, ILocalStorageService localStorage)

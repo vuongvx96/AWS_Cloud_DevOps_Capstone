@@ -2,10 +2,6 @@
 using GloboTicket.TicketManagement.App.Contracts;
 using GloboTicket.TicketManagement.App.ViewModels;
 using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.App.Pages
 {
@@ -26,7 +22,7 @@ namespace GloboTicket.TicketManagement.App.Pages
 
         private int? pageNumber = 1;
 
-        private PaginatedList<OrdersForMonthListViewModel> paginatedList 
+        private PaginatedList<OrdersForMonthListViewModel> paginatedList
             = new PaginatedList<OrdersForMonthListViewModel>();
 
         private IEnumerable<OrdersForMonthListViewModel> ordersList;

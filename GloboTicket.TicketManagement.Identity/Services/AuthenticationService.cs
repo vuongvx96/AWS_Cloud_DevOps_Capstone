@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.Identity.Services
 {
-    public class AuthenticationService: IAuthenticationService
+    public class AuthenticationService : IAuthenticationService
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -54,7 +54,7 @@ namespace GloboTicket.TicketManagement.Identity.Services
                 Email = user.Email,
                 UserName = user.UserName
             };
-            
+
             return response;
         }
 
@@ -93,7 +93,7 @@ namespace GloboTicket.TicketManagement.Identity.Services
             }
             else
             {
-                throw new Exception($"Email {request.Email } already exists.");
+                throw new Exception($"Email {request.Email} already exists.");
             }
         }
 

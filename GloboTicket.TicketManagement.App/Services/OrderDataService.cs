@@ -3,8 +3,6 @@ using Blazored.LocalStorage;
 using GloboTicket.TicketManagement.App.Contracts;
 using GloboTicket.TicketManagement.App.Services.Base;
 using GloboTicket.TicketManagement.App.ViewModels;
-using System;
-using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.App.Services
 {

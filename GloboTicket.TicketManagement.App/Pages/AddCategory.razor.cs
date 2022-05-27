@@ -3,7 +3,6 @@ using GloboTicket.TicketManagement.App.Services;
 using GloboTicket.TicketManagement.App.Services.Base;
 using GloboTicket.TicketManagement.App.ViewModels;
 using Microsoft.AspNetCore.Components;
-using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.App.Pages
 {

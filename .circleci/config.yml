@@ -4,6 +4,7 @@ orbs:
   windows: circleci/windows@2.4.1
 
 jobs:
+  checking
   build-backend:
     docker:
       - image: mcr.microsoft.com/dotnet/sdk:6.0-focal
@@ -14,12 +15,10 @@ jobs:
             - dotnet-packages-v1-{{ checksum "GloboTicket.TicketManagement.Api/GloboTicket.TicketManagement.Api.csproj" }}
       - run:
           name: "Install project dependencies"
-          command: dotnet restore
+          command: dotnet restore GloboTicket.TicketManagement.Api
       - run:
           name: Build backend-end
-          command: |
-            cd GloboTicket.TicketManagement.Api
-            dotnet build
+          command: dotnet build GloboTicket.TicketManagement.Api
       - save_cache:
           paths:
             - /root/.nuget/packages
@@ -34,20 +33,50 @@ jobs:
           keys:
             - dotnet-packages-v1-{{ checksum "GloboTicket.TicketManagement.App/GloboTicket.TicketManagement.App.csproj" }}
       - run:
-          name: "Install project dependencies"
-          command: dotnet restore
+          name: Install project dependencies
+          command: dotnet restore GloboTicket.TicketManagement.App
       - run:
           name: Build front-end
-          command: |
-            cd GloboTicket.TicketManagement.App
-            dotnet build
+          command: dotnet build GloboTicket.TicketManagement.App
       - save_cache:
           paths:
             - /root/.nuget/packages
           key: dotnet-packages-v1-{{ checksum "GloboTicket.TicketManagement.App/GloboTicket.TicketManagement.App.csproj" }}
+
+  unit-test:
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:6.0-focal
+    steps:
+      - checkout
+      - run:
+          name: Install project dependencies
+          command: dotnet restore
+      - run:
+          name: Run Application Unit Tests
+          command: dotnet test GloboTicket.TicketManagement.Application.UnitTests
+
+  integration-test:
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:6.0-focal
+    steps:
+      - checkout
+      - run:
+          name: Install project dependencies
+          command: dotnet restore
+      - run:
+          name: Run Persistence Tests
+          command: dotnet test GloboTicket.TicketManagement.Persistence.IntegrationTests
+      - run:
+          name: Run API Integration Tests
+          command: dotnet test GloboTicket.TicketManagement.API.IntegrationTests
 
 workflows:
   default:
     jobs:
       - build-backend
       - build-frontend
+      - unit-test:
+          requires: [build-backend]
+      - integration-test:
+          requires: [build-backend]        
+          

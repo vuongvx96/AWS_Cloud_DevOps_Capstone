@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   slack: circleci/slack@4.1
-  windows: circleci/windows@2.4.1
+  sonarcloud: sonarsource/sonarcloud@1.0.3
 
 jobs:
   linting:
@@ -81,6 +81,13 @@ jobs:
           name: Run API Integration Tests
           command: dotnet test GloboTicket.TicketManagement.API.IntegrationTests
 
+  sonarqube-scan:
+    docker:
+      - image: circleci/python:3.7.4
+    steps:
+      - checkout
+      - sonarcloud/scan
+
 workflows:
   default:
     jobs:
@@ -93,4 +100,8 @@ workflows:
           requires: [build-backend]
       - integration-test:
           requires: [build-backend]
+      - sonarqube-scan:
+          requires:
+            - build-backend
+            - build-frontend
           

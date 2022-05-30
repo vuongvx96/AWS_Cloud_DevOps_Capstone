@@ -88,6 +88,27 @@ jobs:
       - checkout
       - sonarcloud/scan
 
+  upload-docker:
+    docker:
+      - image: cimg/go:1.18.2
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.14
+      - run:
+          name: Build docker container
+          command: |
+            docker build -f GloboTicket.TicketManagement.Api/Dockerfile --tag=$DOCKER_IMAGE_NAME .
+            docker image ls
+      - run:
+          name: Upload Docker to Dockerhub
+          command: |
+            echo "Docker ID and Image: $DOCKER_IMAGE_NAME"
+            docker login -u="$DOCKERHUB_USERNAME" -p="$DOCKERHUB_PASSWORD"
+            docker tag $DOCKER_IMAGE_NAME $DOCKERHUB_USERNAME/$DOCKER_IMAGE_NAME:$CIRCLE_WORKFLOW_ID
+            docker push $DOCKERHUB_USERNAME/$DOCKER_IMAGE_NAME:$CIRCLE_WORKFLOW_ID
+
 workflows:
   default:
     jobs:
@@ -104,4 +125,10 @@ workflows:
           requires:
             - build-backend
             - build-frontend
-          
+      - upload-docker:
+          requires:
+            - unit-test
+            - integration-test
+          filters:
+            branches:
+              only: [ master ]

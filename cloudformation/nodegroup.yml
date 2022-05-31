@@ -1,5 +1,5 @@
 Description: >
-  Vuong Vo Xuan / Capstone Project
+  Vuong Xuan Vo / Capstone Project
   Creates the nodegroup for the Amazon EKS Cluster
 Parameters:
   EnvironmentName:

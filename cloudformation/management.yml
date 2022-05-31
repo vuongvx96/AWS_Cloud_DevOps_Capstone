@@ -1,5 +1,5 @@
 Description: >
-  Vuong Vo Xuan / Capstone Project
+  Vuong Xuan Vo / Capstone Project
   Creates two individual hosts to manage the EKS-Cluster
 
 Parameters:
@@ -55,3 +55,19 @@ Resources:
           Value: !Sub ${EnvironmentName}-management2
         - Key: Project
           Value: !Ref EnvironmentName
+
+  managementHostEIP1:
+    Type: AWS::EC2::EIP
+    Properties:
+        InstanceId: !Ref managementHost1
+        Tags:
+        - Key: Name
+          Value: !Sub Elastic IP for our ${EnvironmentName}-management1
+
+  managementHostEIP2:
+    Type: AWS::EC2::EIP
+    Properties:
+        InstanceId: !Ref managementHost2
+        Tags:
+        - Key: Name
+          Value: !Sub Elastic IP for our ${EnvironmentName}-management2

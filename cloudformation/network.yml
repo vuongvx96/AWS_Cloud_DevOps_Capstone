@@ -1,6 +1,6 @@
 ---
 Description: >
-  Vuong Vo Xuan / Capstone Project
+  Vuong Xuan Vo / Capstone Project
   Creates a VPC with public subnets for EKS.
 
 Parameters:

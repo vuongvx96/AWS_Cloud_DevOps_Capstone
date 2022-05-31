@@ -174,6 +174,32 @@ jobs:
             - inventory.txt
             - checkIfDeployed.txt
 
+  configure-infrastructure:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["86:d8:bf:57:8f:a4:0e:da:d5:3a:88:01:31:9f:7d:d8"]
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update ansible
+      - run:
+          name: Configure server
+          command: |
+            if grep -q "No changes to deploy" ~/checkIfDeployed.txt
+              then
+                cat ~/inventory.txt
+                echo "Our management instances are already configured."
+              else
+                cat ~/inventory.txt
+                cd ansible
+                ansible-playbook -i ~/inventory.txt configure-server.yml
+              fi
+
 workflows:
   default:
     jobs:
@@ -201,3 +227,5 @@ workflows:
           filters:
             branches:
               only: [ master ]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]

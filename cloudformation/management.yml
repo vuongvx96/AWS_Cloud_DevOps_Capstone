@@ -13,7 +13,7 @@ Parameters:
     Type: String
   amiImageId:
     Description: Defines the Image-ID of the OS to deploy
-    Default: ami-09d56f8956ab235b3
+    Default: ami-005de95e8ff495156
     Type: String
 
 Resources:
@@ -22,6 +22,9 @@ Resources:
     Properties:
       GroupName: !Sub ${EnvironmentName}-management-SG
       GroupDescription: Allow port 22 for management
+      VpcId:
+        Fn::ImportValue:
+          Fn::Sub: ${EnvironmentName}-VPC
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 22
@@ -30,12 +33,18 @@ Resources:
 
   managementHost1:
     Type: AWS::EC2::Instance
+    DependsOn: InstanceSecurityGroup
     Properties:
       InstanceType: t2.micro
-      SecurityGroups:
-        - Ref: InstanceSecurityGroup
       KeyName: !Ref SSHKeyName
       ImageId: !Ref amiImageId
+      NetworkInterfaces:
+        - DeviceIndex: 0
+          GroupSet: 
+            - Ref: "InstanceSecurityGroup"
+          SubnetId:
+            Fn::ImportValue:
+              Fn::Sub: "${EnvironmentName}-PUB1-SN"
       Tags:
         - Key: Name
           Value: !Sub ${EnvironmentName}-management1
@@ -44,12 +53,18 @@ Resources:
 
   managementHost2:
     Type: AWS::EC2::Instance
+    DependsOn: InstanceSecurityGroup
     Properties:
       InstanceType: t2.micro
-      SecurityGroups:
-        - Ref: InstanceSecurityGroup
       KeyName: !Ref SSHKeyName
       ImageId: !Ref amiImageId
+      NetworkInterfaces:
+        - DeviceIndex: 0
+          GroupSet: 
+            - Ref: "InstanceSecurityGroup"
+          SubnetId:
+            Fn::ImportValue:
+              Fn::Sub: "${EnvironmentName}-PUB2-SN"
       Tags:
         - Key: Name
           Value: !Sub ${EnvironmentName}-management2

@@ -206,8 +206,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints:
-            - "d4:2f:91:66:b5:0d:84:24:4a:09:2c:d6:8a:c1:0f:91"
+          fingerprints: ["d4:2f:91:66:b5:0d:84:24:4a:09:2c:d6:8a:c1:0f:91"]
       - attach_workspace:
           at: ~/
       - run:
@@ -250,6 +249,27 @@ jobs:
           paths:
             - elb_dns.txt
 
+  deploy-docker:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["d4:2f:91:66:b5:0d:84:24:4a:09:2c:d6:8a:c1:0f:91"]
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update ansible
+      - run:
+          name: Deploy newest Docker Image
+          command: |
+            cat ~/inventory.txt
+            cd ansible
+            ansible-playbook -i ~/inventory.txt deploy-app.yml
+          no_output_timeout: 2m
+
 workflows:
   default:
     jobs:
@@ -283,3 +303,6 @@ workflows:
           requires:
             - configure-infrastructure
             - upload-docker
+      - deploy-docker:
+          requires:
+            - configure-cluster

@@ -1,6 +1,7 @@
 Description: >
   Vuong Xuan Vo / Capstone Project
   Creates an Amazon EKS Cluster
+
 Parameters:
   EnvironmentName:
     Description: An Environment name that will be prefixed to resources
@@ -8,15 +9,7 @@ Parameters:
     Type: String
 
 Resources:
-  ClusterInstanceProfile:
-    Type: AWS::IAM::InstanceProfile
-    Properties:
-      InstanceProfileName: !Sub ${EnvironmentName}-cluster-profile
-      Path: "/"
-      Roles:
-        - !Ref EKSClusterRole
-
-  EKSClusterRole:
+  EKSIAMRole:
     Type: AWS::IAM::Role
     Properties:
       RoleName: !Sub ${EnvironmentName}-cluster-role
@@ -29,35 +22,34 @@ Resources:
                 - eks.amazonaws.com
             Action:
               - sts:AssumeRole
-      Path: "/"
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
         - arn:aws:iam::aws:policy/AmazonEKSServicePolicy
-        - arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess
 
-  CapstoneProjectCluster:
+  EKSCluster:
     Type: AWS::EKS::Cluster
     Properties:
       Version: "1.19"
       Name: !Sub ${EnvironmentName}-cluster
-      RoleArn: !GetAtt EKSClusterRole.Arn
+      RoleArn: !GetAtt EKSIAMRole.Arn
       ResourcesVpcConfig:
         SecurityGroupIds:
-          - Fn::ImportValue: !Sub ${EnvironmentName}-SCG
+          - Fn::ImportValue: !Sub ${EnvironmentName}-ControlPlaneSecurityGroup
         SubnetIds:
           Fn::Split:
             - ","
             - Fn::ImportValue:
-                Fn::Sub: ${EnvironmentName}-PUB-NETS
+                Fn::Sub: ${EnvironmentName}-SubnetIds
+
 Outputs:
   EksId:
     Description: EKS id
-    Value: !Ref CapstoneProjectCluster
+    Value: !Ref EKSCluster
     Export:
       Name: !Sub ${EnvironmentName}-EKSCluster
 
-  EKSRoleArn:
+  EKSIAMRole:
     Description: Role for accessing and creating aws resources
-    Value: !GetAtt EKSClusterRole.Arn
+    Value: !GetAtt EKSIAMRole.Arn
     Export:
       Name: !Sub ${EnvironmentName}-EKSRole

@@ -1,15 +1,13 @@
 ---
-- name: "Download The AWS CLI Archive"
-  shell: curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-  args:
-    chdir: $HOME
-
-- name: "Unzip the AWS CLI Archive"
-  shell: unzip awscliv2.zip
-  args:
-    chdir: $HOME
+- name: "Unarchives the compressed the AWS CLI Archive file"
+  unarchive:
+    remote_src: yes
+    src: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+    dest: $HOME
 
 - name: "Install the AWS CLI"
-  shell: ./aws/install
+  become_method: sudo
+  shell: ./aws/install --update
   args:
     chdir: $HOME
+

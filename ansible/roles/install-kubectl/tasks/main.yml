@@ -1,16 +1,35 @@
 ---
 - name: "Download kubectl"
-  shell: curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-  args:
-    chdir: $HOME
+  get_url:
+    url: https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/linux/amd64/kubectl
+    dest: $HOME/kubectl
+    checksum: sha256:https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/linux/amd64/kubectl.sha256
+    mode: 0700
+    timeout: 120
+    use_proxy: no
+    validate_certs: false
+    force: no
 
 - name: "Apply execute permissions to the binary"
-  shell: chmod +x ./kubectl
-  args:
-    chdir: $HOME
+  file:
+    path: $HOME/kubectl
+    mode: u+rwx,g=,o=
+    state: file
+
+- name: Creates directory
+  file:
+    path: $HOME/bin
+    state: directory
 
 - name: "Copy the binary to a folder to the $PATH"
-  shell: mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
+  copy:
+    src: $HOME/kubectl
+    dest: $HOME/bin  
+    mode: u+rwx,g=,o=
+    remote_src: true
+
+- name: "Export PATH"
+  shell: export PATH=$PATH:$HOME/bin
   args:
     chdir: $HOME
 

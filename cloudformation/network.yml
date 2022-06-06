@@ -1,4 +1,4 @@
----
+AWSTemplateFormatVersion: "2010-09-09"
 Description: >
   Vuong Xuan Vo / Capstone Project
   Creates a VPC with public subnets for EKS.
@@ -51,18 +51,18 @@ Resources:
   VPC:
     Type: AWS::EC2::VPC
     Properties:
-      CidrBlock: !Ref VpcCIDR
+      CidrBlock:  !Ref VpcBlock
       EnableDnsSupport: true
       EnableDnsHostnames: true
       Tags:
-        - Key: Name
-          Value: !Sub ${EnvironmentName}-VPC
+      - Key: Name
+        Value: !Sub '${EnvironmentName}-VPC'
 
   InternetGateway:
-    Type: AWS::EC2::InternetGateway
+    Type: "AWS::EC2::InternetGateway"
 
   VPCGatewayAttachment:
-    Type: AWS::EC2::VPCGatewayAttachment
+    Type: "AWS::EC2::VPCGatewayAttachment"
     Properties:
       InternetGatewayId: !Ref InternetGateway
       VpcId: !Ref VPC
@@ -73,9 +73,9 @@ Resources:
       VpcId: !Ref VPC
       Tags:
       - Key: Name
-        Value: !Sub ${EnvironmentName}-Public-Subnets
+        Value: Public Subnets
       - Key: Network
-        Value: !Sub ${EnvironmentName}-Public
+        Value: Public
 
   PrivateRouteTable01:
     Type: AWS::EC2::RouteTable
@@ -170,6 +170,7 @@ Resources:
     Metadata:
       Comment: Subnet 01
     Properties:
+      MapPublicIpOnLaunch: true
       AvailabilityZone:
         Fn::Select:
         - '0'
@@ -182,12 +183,17 @@ Resources:
       Tags:
       - Key: Name
         Value: !Sub "${EnvironmentName}-PublicSubnet01"
+      - Key: kubernetes.io/role/elb
+        Value: 1
+      - Key: !Sub "kubernetes.io/cluster/${EnvironmentName}-cluster"
+        Value: shared
 
   PublicSubnet02:
     Type: AWS::EC2::Subnet
     Metadata:
       Comment: Subnet 02
     Properties:
+      MapPublicIpOnLaunch: true
       AvailabilityZone:
         Fn::Select:
         - '1'
@@ -200,6 +206,10 @@ Resources:
       Tags:
       - Key: Name
         Value: !Sub "${EnvironmentName}-PublicSubnet02"
+      - Key: kubernetes.io/role/elb
+        Value: 1
+      - Key: !Sub "kubernetes.io/cluster/${EnvironmentName}-cluster"
+        Value: shared
 
   PrivateSubnet01:
     Type: AWS::EC2::Subnet
@@ -218,6 +228,10 @@ Resources:
       Tags:
       - Key: Name
         Value: !Sub "${EnvironmentName}-PrivateSubnet01"
+      - Key: kubernetes.io/role/internal-elb
+        Value: 1
+      - Key: !Sub "kubernetes.io/cluster/${EnvironmentName}-cluster"
+        Value: shared
 
   PrivateSubnet02:
     Type: AWS::EC2::Subnet
@@ -236,6 +250,10 @@ Resources:
       Tags:
       - Key: Name
         Value: !Sub "${EnvironmentName}-PrivateSubnet02"
+      - Key: kubernetes.io/role/internal-elb
+        Value: 1
+      - Key: !Sub "kubernetes.io/cluster/${EnvironmentName}-cluster"
+        Value: shared
 
   PublicSubnet01RouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
@@ -266,16 +284,49 @@ Resources:
     Properties:
       GroupDescription: Cluster communication with worker nodes
       VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
 
 Outputs:
+  VpcId:
+    Description: The VPC Id
+    Value: !Ref VPC
+    Export:
+      Name: !Sub ${EnvironmentName}-VPC
+
   SubnetIds:
     Description: Subnets IDs in the VPC
     Value: !Join [ ",", [ !Ref PublicSubnet01, !Ref PublicSubnet02, !Ref PrivateSubnet01, !Ref PrivateSubnet02 ] ]
+    Export:
+      Name: !Sub ${EnvironmentName}-SubnetIds
+
+  PrivateSubnetIds:
+    Description: Public Subnets IDs in the VPC
+    Value: !Join [ ",", [ !Ref PrivateSubnet01, !Ref PrivateSubnet02 ] ]
+    Export:
+      Name: !Sub ${EnvironmentName}-PrivateSubnetIds
 
   SecurityGroups:
     Description: Security group for the cluster control plane communication with worker nodes
     Value: !Join [ ",", [ !Ref ControlPlaneSecurityGroup ] ]
+    Export:
+      Name: !Sub ${EnvironmentName}-ControlPlaneSecurityGroup
 
-  VpcId:
-    Description: The VPC Id
-    Value: !Ref VPC
+  PublicSubnet01:
+    Description: A reference to the public subnet in the 1st Availability Zone
+    Value: !Ref PublicSubnet01
+    Export:
+      Name: !Sub ${EnvironmentName}-PUB1-SN
+
+  PublicSubnet02:
+    Description: A reference to the public subnet in the 2nd Availability Zone
+    Value: !Ref PublicSubnet02
+    Export:
+      Name: !Sub ${EnvironmentName}-PUB2-SN

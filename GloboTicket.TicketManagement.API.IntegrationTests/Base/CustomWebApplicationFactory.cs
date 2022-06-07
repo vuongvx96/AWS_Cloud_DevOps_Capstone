@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Net.Http;
+using GloboTicket.TicketManagement.Identity;
 using GloboTicket.TicketManagement.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
 namespace GloboTicket.TicketManagement.API.IntegrationTests.Base
@@ -17,7 +19,14 @@ namespace GloboTicket.TicketManagement.API.IntegrationTests.Base
         {
             builder.ConfigureServices(services =>
             {
+                services.RemoveAll(typeof(DbContextOptions<GloboTicketDbContext>));
+                services.RemoveAll(typeof(DbContextOptions<GloboTicketIdentityDbContext>));
+
                 services.AddDbContext<GloboTicketDbContext>(options =>
+                {
+                    options.UseInMemoryDatabase("GloboTicketDbContextInMemoryTest");
+                });
+                services.AddDbContext<GloboTicketIdentityDbContext>(options =>
                 {
                     options.UseInMemoryDatabase("GloboTicketDbContextInMemoryTest");
                 });

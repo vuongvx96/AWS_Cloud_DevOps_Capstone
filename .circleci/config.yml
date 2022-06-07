@@ -264,6 +264,7 @@ jobs:
           command: |
             apk add --update ansible
             ansible-galaxy collection install kubernetes.core
+            ansible-galaxy collection install cloud.common
       - run:
           name: Deploy newest Docker Image
           command: |

@@ -14,8 +14,16 @@ spec:
       labels:
         app: capstone-project-app
     spec:
+      volumes:
+        - name: globoticket-api-config-volume
+          configMap:
+            name: globoticket-api-config
       containers:
         - name: capstone-project-app
           image: vuongvx/globoticket-api
           ports:
             - containerPort: 80
+          volumeMounts:
+            - name: globoticket-api-config-volume
+              mountPath: /app/appsettings.k8s.json
+              subPath: appsettings.k8s.json

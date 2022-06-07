@@ -23,6 +23,7 @@ namespace GloboTicket.TicketManagement.Api
             {
                 var config = new ConfigurationBuilder()
                     .AddJsonFile("appsettings.json")
+                    .AddJsonFile("appsettings.k8s.json", optional: true, reloadOnChange: false)
                     .Build();
 
                 Log.Logger = new LoggerConfiguration()

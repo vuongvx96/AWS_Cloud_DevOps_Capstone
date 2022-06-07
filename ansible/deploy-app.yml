@@ -67,7 +67,7 @@
           metadata:
             name: globoticket-api-config
           data:
-            appsettings.k8s.json: "{{ appsettings }}"
+            appsettings.k8s.json: "{{ appsettings | to_json }}"
         apply: yes
         server_side_apply:
           field_manager: ansible

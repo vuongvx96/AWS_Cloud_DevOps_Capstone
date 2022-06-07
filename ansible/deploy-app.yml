@@ -51,8 +51,16 @@
             Audience: "{{ JWT_AUDIENCE }}"
             DurationInMinutes: "{{ JWT_EXPIRE_TIME }}"
 
+    - name: Create a k8s namespace
+      kubernetes.core.k8s:
+        name: globoticket-api
+        api_version: v1
+        kind: Namespace
+        state: present
+
     - name: Create configmap using server side apply
       kubernetes.core.k8s:
+        namespace: globoticket-api
         definition:
           apiVersion: v1
           kind: ConfigMap

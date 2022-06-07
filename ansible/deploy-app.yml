@@ -43,28 +43,24 @@
           metadata:
             name: globoticket-api-config
           data:
-            appsettings.k8s.json: |-
-              {
-                "ConnectionStrings": {
-                  "GloboTicketTicketManagementConnectionString": "server={{ DB_HOST }};port={{ DB_PORT }};user={{ DB_USERNAME }};password={{ DB_PASSWORD }};Database={{ DB_NAME }}",
-                  "GloboTicketIdentityConnectionString": "server={{ DB_HOST }};port={{ DB_PORT }};user={{ DB_USERNAME }};password={{ DB_PASSWORD }};Database={{ IDENTITY_DB_NAME }};"
-                },
-                "AllowedHosts": "*",
-                "EmailSettings": {
-                  "FromAddress": "{{ EMAIL_FROMADDRESS }}",
-                  "ApiKey": "{{ EMAIL_APIKEY }}",
-                  "FromName": "{{ EMAIL_FROMNAME }}"
-                },
-                "JwtSettings": {
-                  "Key": "{{ JWT_SECRECT_KEY }}",
-                  "Issuer": "{{ JWT_ISSUER }}",
-                  "Audience": "{{ JWT_AUDIENCE }}",
-                  "DurationInMinutes": "{{ JWT_EXPIRE_TIME }}"
-                }
+            appsettings.k8s.json: '{
+              "ConnectionStrings": {
+                "GloboTicketTicketManagementConnectionString": "server={{ DB_HOST }};port={{ DB_PORT }};user={{ DB_USERNAME }};password={{ DB_PASSWORD }};Database={{ DB_NAME }}",
+                "GloboTicketIdentityConnectionString": "server={{ DB_HOST }};port={{ DB_PORT }};user={{ DB_USERNAME }};password={{ DB_PASSWORD }};Database={{ IDENTITY_DB_NAME }};"
+              },
+              "AllowedHosts": "*",
+              "EmailSettings": {
+                "FromAddress": "{{ EMAIL_FROMADDRESS }}",
+                "ApiKey": "{{ EMAIL_APIKEY }}",
+                "FromName": "{{ EMAIL_FROMNAME }}"
+              },
+              "JwtSettings": {
+                "Key": "{{ JWT_SECRECT_KEY }}",
+                "Issuer": "{{ JWT_ISSUER }}",
+                "Audience": "{{ JWT_AUDIENCE }}",
+                "DurationInMinutes": "{{ JWT_EXPIRE_TIME }}"
               }
-        apply: yes
-        server_side_apply:
-          field_manager: ansible
+            }'
 
     - name: Update the deployment to run the latest Build
       shell: "./bin/kubectl set image deployments/{{ ENVIRONMENT_NAME }}-deployment {{ ENVIRONMENT_NAME }}-app=vuongvx/{{ DOCKER_IMAGE_NAME }}:{{ CIRCLE_WORKFLOW_ID }}"

@@ -1,9 +1,19 @@
-- name: Copy service configuration
+- name: Copy backend service configuration
   copy:
-    src: "{{ ENVIRONMENT_NAME }}-service.yaml"
+    src: "{{ ENVIRONMENT_NAME }}-backend-service.yaml"
     dest: $HOME
 
-- name: Create service configuration
-  command: "./bin/kubectl apply -f {{ ENVIRONMENT_NAME }}-service.yaml"
+- name: Copy frontend service configuration
+  copy:
+    src: "{{ ENVIRONMENT_NAME }}-frontend-service.yaml"
+    dest: $HOME
+
+- name: Create backend service configuration
+  command: "./bin/kubectl apply -f {{ ENVIRONMENT_NAME }}-backend-service.yaml"
+  args:
+    chdir: $HOME
+
+- name: Create frontend service configuration
+  command: "./bin/kubectl apply -f {{ ENVIRONMENT_NAME }}-frontend-service.yaml"
   args:
     chdir: $HOME

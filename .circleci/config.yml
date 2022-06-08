@@ -97,17 +97,21 @@ jobs:
       - setup_remote_docker:
           version: 20.10.14
       - run:
-          name: Build docker container
+          name: Build docker containers
           command: |
-            docker build -f GloboTicket.TicketManagement.Api/Dockerfile --tag=$DOCKER_IMAGE_NAME .
+            docker build -f GloboTicket.TicketManagement.Api/Dockerfile --tag=$DOCKER_BACKEND_IMAGE_NAME .
+            cd GloboTicket.TicketManagement.App
+            docker build -f GloboTicket.TicketManagement.Api/Dockerfile --tag=$DOCKER_FRONTEND_IMAGE_NAME .
             docker image ls
       - run:
           name: Upload Docker to Dockerhub
           command: |
-            echo "Docker ID and Image: $DOCKER_IMAGE_NAME"
+            echo "Docker ID and Image: $DOCKER_BACKEND_IMAGE_NAME"
             docker login -u="$DOCKERHUB_USERNAME" -p="$DOCKERHUB_PASSWORD"
-            docker tag $DOCKER_IMAGE_NAME $DOCKERHUB_USERNAME/$DOCKER_IMAGE_NAME:$CIRCLE_WORKFLOW_ID
-            docker push $DOCKERHUB_USERNAME/$DOCKER_IMAGE_NAME:$CIRCLE_WORKFLOW_ID
+            docker tag $DOCKER_BACKEND_IMAGE_NAME $DOCKERHUB_USERNAME/$DOCKER_BACKEND_IMAGE_NAME:$CIRCLE_WORKFLOW_ID
+            docker tag $DOCKER_BACKEND_IMAGE_NAME $DOCKERHUB_USERNAME/$DOCKER_FRONTEND_IMAGE_NAME:$CIRCLE_WORKFLOW_ID
+            docker push $DOCKERHUB_USERNAME/$DOCKER_BACKEND_IMAGE_NAME:$CIRCLE_WORKFLOW_ID
+            docker push $DOCKERHUB_USERNAME/$DOCKER_FRONTEND_IMAGE_NAME:$CIRCLE_WORKFLOW_ID
 
   deploy-infrastructure:
     docker:
@@ -244,12 +248,12 @@ jobs:
           command: |
             cat ~/inventory.txt
             cd ansible
-            ansible-playbook -i ~/inventory.txt save-elb-dns.yml
-            cat ~/elb_dns.txt
+            ansible-playbook -i ~/inventory.txt save-backend-elb-dns.yml
+            cat ~/backend_elb_dns.txt
       - persist_to_workspace:
           root: ~/
           paths:
-            - elb_dns.txt
+            - backend_elb_dns.txt
 
   deploy-docker:
     docker:
@@ -267,12 +271,18 @@ jobs:
             ansible-galaxy collection install kubernetes.core
             ansible-galaxy collection install cloud.common
       - run:
+          name: Get backend url and set it to environment variables
+          command: |
+            BACKEND_ENDPOINT=$( cat ~/backend_elb_dns.txt )
+            echo "Backend URL: $BACKEND_ENDPOINT"
+            echo 'export BACKEND_URL="$BACKEND_ENDPOINT"' >> $BASH_ENV
+      - run:
           name: Deploy newest Docker Image
           command: |
             cat ~/inventory.txt
             cd ansible
             ansible-playbook -i ~/inventory.txt deploy-app.yml
-          no_output_timeout: 2m
+          no_output_timeout: 5m
 
 workflows:
   default:

@@ -19,6 +19,7 @@
     JWT_ISSUER: "{{ lookup('env','JWT_ISSUER') }}"
     JWT_AUDIENCE: "{{ lookup('env','JWT_AUDIENCE') }}"
     JWT_EXPIRE_TIME: "{{ lookup('env','JWT_EXPIRE_TIME') }}"
+    BACKEND_URL: "{{ lookup('env','BACKEND_URL') }}"
   roles:
     - update-configmap
     - capstone-deployment

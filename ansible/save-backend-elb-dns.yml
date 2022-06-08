@@ -7,14 +7,14 @@
   vars:
     ENVIRONMENT_NAME: "{{ lookup('env', 'ENVIRONMENT_NAME') }}"
   tasks:
-    - name: Get the LoadBalancer's DNS name
-      shell: "./bin/kubectl get svc {{ ENVIRONMENT_NAME }}-service"
-      register: elb_dns
+    - name: Get the Backend LoadBalancer's DNS name
+      shell: "./bin/kubectl get svc {{ ENVIRONMENT_NAME }}-backend-service"
+      register: backend_elb_dns
       args:
         chdir: $HOME
 
     - name: Copy the output to a local file
       copy:
-        content: "{{ elb_dns.stdout }}"
-        dest: "~/elb_dns.txt"
+        content: "{{ backend_elb_dns.stdout }}"
+        dest: "~/backend_elb_dns.txt"
       delegate_to: localhost

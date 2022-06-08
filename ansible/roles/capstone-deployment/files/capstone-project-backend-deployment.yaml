@@ -2,25 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: default
-  name: capstone-project-deployment
+  name: capstone-project-backend-deployment
   labels:
-    app: capstone-project-app
+    app: capstone-project-backend-app
 spec:
   replicas: 4
   selector:
     matchLabels:
-      app: capstone-project-app
+      app: capstone-project-backend-app
   template:
     metadata:
       labels:
-        app: capstone-project-app
+        app: capstone-project-backend-app
     spec:
       volumes:
         - name: globoticket-api-config-volume
           configMap:
             name: globoticket-api-config
       containers:
-        - name: capstone-project-app
+        - name: capstone-project-backend-app
           image: vuongvx/globoticket-api
           ports:
             - containerPort: 80

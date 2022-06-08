@@ -4,7 +4,8 @@
   gather_facts: false
   become: yes
   vars:
-    DOCKER_IMAGE_NAME: "{{ lookup('env', 'DOCKER_IMAGE_NAME') }}"
+    DOCKER_BACKEND_IMAGE_NAME: "{{ lookup('env', 'DOCKER_BACKEND_IMAGE_NAME') }}"
+    DOCKER_FRONTEND_IMAGE_NAME: "{{ lookup('env', 'DOCKER_FRONTEND_IMAGE_NAME') }}"
     ENVIRONMENT_NAME: "{{ lookup('env', 'ENVIRONMENT_NAME') }}"
     CIRCLE_WORKFLOW_ID: "{{ lookup('env', 'CIRCLE_WORKFLOW_ID') }}"
     DB_HOST: "{{ lookup('env','DB_HOST') }}"
@@ -20,15 +21,26 @@
     JWT_ISSUER: "{{ lookup('env','JWT_ISSUER') }}"
     JWT_AUDIENCE: "{{ lookup('env','JWT_AUDIENCE') }}"
     JWT_EXPIRE_TIME: "{{ lookup('env','JWT_EXPIRE_TIME') }}"
+    BACKEND_URL: "{{ lookup('env','BACKEND_URL') }}"
   roles:
     - update-configmap
   tasks:
-    - name: Update the deployment to run the latest Build
-      shell: "./bin/kubectl set image deployments/{{ ENVIRONMENT_NAME }}-deployment {{ ENVIRONMENT_NAME }}-app=vuongvx/{{ DOCKER_IMAGE_NAME }}:{{ CIRCLE_WORKFLOW_ID }}"
+    - name: Update the backend deployment to run the latest Build
+      shell: "./bin/kubectl set image deployments/{{ ENVIRONMENT_NAME }}-backend-deployment {{ ENVIRONMENT_NAME }}-backend-app=vuongvx/{{ DOCKER_BACKEND_IMAGE_NAME }}:{{ CIRCLE_WORKFLOW_ID }}"
       args:
         chdir: $HOME
 
-    - name: Check if deployment ist successful
-      shell: "./bin/kubectl rollout status deployments/{{ ENVIRONMENT_NAME }}-deployment"
+    - name: Check if backend deployment ist successful
+      shell: "./bin/kubectl rollout status deployments/{{ ENVIRONMENT_NAME }}-backend-deployment"
+      args:
+        chdir: $HOME
+
+    - name: Update the frontend deployment to run the latest Build
+      shell: "./bin/kubectl set image deployments/{{ ENVIRONMENT_NAME }}-frontend-deployment {{ ENVIRONMENT_NAME }}-frontend-app=vuongvx/{{ DOCKER_FRONTEND_IMAGE_NAME }}:{{ CIRCLE_WORKFLOW_ID }}"
+      args:
+        chdir: $HOME
+
+    - name: Check if frontend deployment ist successful
+      shell: "./bin/kubectl rollout status deployments/{{ ENVIRONMENT_NAME }}-frontend-deployment"
       args:
         chdir: $HOME

@@ -1,9 +1,19 @@
-- name: Copy deployment configuration
+- name: Copy backend deployment configuration
   copy:
-    src: "{{ ENVIRONMENT_NAME }}-deployment.yaml"
+    src: "{{ ENVIRONMENT_NAME }}-backend-deployment.yaml"
     dest: $HOME
 
-- name: Apply deployment configuration
-  shell: "./bin/kubectl apply -f {{ ENVIRONMENT_NAME }}-deployment.yaml"
+- name: Copy frontend deployment configuration
+  copy:
+    src: "{{ ENVIRONMENT_NAME }}-frontend-deployment.yaml"
+    dest: $HOME
+
+- name: Apply backend deployment configuration
+  shell: "./bin/kubectl apply -f {{ ENVIRONMENT_NAME }}-backend-deployment.yaml"
+  args:
+    chdir: $HOME
+
+- name: Apply frontend deployment configuration
+  shell: "./bin/kubectl apply -f {{ ENVIRONMENT_NAME }}-frontend-deployment.yaml"
   args:
     chdir: $HOME

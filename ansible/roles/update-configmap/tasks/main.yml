@@ -11,9 +11,9 @@
     name: kubernetes
     state: present
 
-- name: Set appsettings variable
+- name: Set backend appsettings variable
   set_fact:
-    appsettings:
+    backendsettings:
       ConnectionStrings:
         GloboTicketTicketManagementConnectionString: "server={{ DB_HOST }};port={{ DB_PORT }};user={{ DB_USERNAME }};password={{ DB_PASSWORD }};Database={{ DB_NAME }}"
         GloboTicketIdentityConnectionString: "server={{ DB_HOST }};port={{ DB_PORT }};user={{ DB_USERNAME }};password={{ DB_PASSWORD }};Database={{ IDENTITY_DB_NAME }};"
@@ -28,7 +28,12 @@
         Audience: "{{ JWT_AUDIENCE }}"
         DurationInMinutes: "{{ JWT_EXPIRE_TIME }}"
 
-- name: Create configmap using server side apply
+- name: Set frontend appsettings variable
+  set_fact:
+    frontendsettings:
+      apiUrl: "{{ BACKEND_URL }}"
+
+- name: Create configmap for backend using server side apply
   kubernetes.core.k8s:
     namespace: default
     definition:
@@ -37,7 +42,21 @@
       metadata:
         name: globoticket-api-config
       data:
-        appsettings.k8s.json: "{{ appsettings | to_json }}"
+        appsettings.k8s.json: "{{ backendsettings | to_json }}"
+    apply: yes
+    server_side_apply:
+      field_manager: ansible
+
+- name: Create configmap for frontend using server side apply
+  kubernetes.core.k8s:
+    namespace: default
+    definition:
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: globoticket-app-config
+      data:
+        appsettings.Production.json: "{{ frontendsettings | to_json }}"
     apply: yes
     server_side_apply:
       field_manager: ansible

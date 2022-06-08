@@ -53,7 +53,7 @@
 
     - name: Create configmap using server side apply
       kubernetes.core.k8s:
-        namespace: globoticket
+        namespace: default
         definition:
           apiVersion: v1
           kind: ConfigMap

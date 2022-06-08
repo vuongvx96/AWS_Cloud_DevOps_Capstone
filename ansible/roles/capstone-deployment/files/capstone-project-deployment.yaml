@@ -1,7 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: globoticket
   name: capstone-project-deployment
   labels:
     app: capstone-project-app

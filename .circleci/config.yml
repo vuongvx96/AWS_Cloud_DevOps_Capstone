@@ -213,6 +213,8 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible
+            ansible-galaxy collection install kubernetes.core
+            ansible-galaxy collection install cloud.common
       - run:
           name: Configure server
           command: |
@@ -255,8 +257,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints:
-            - "d4:2f:91:66:b5:0d:84:24:4a:09:2c:d6:8a:c1:0f:91"
+          fingerprints: ["d4:2f:91:66:b5:0d:84:24:4a:09:2c:d6:8a:c1:0f:91"]
       - attach_workspace:
           at: ~/
       - run:

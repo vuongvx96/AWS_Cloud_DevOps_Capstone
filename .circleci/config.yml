@@ -279,9 +279,11 @@ jobs:
       - run:
           name: Deploy newest Docker Image
           command: |
+            BACKEND_ENDPOINT=$( cat ~/backend_elb_dns_value.txt )
+            export BACKEND_ENDPOINT=$BACKEND_ENDPOINT
             cat ~/inventory.txt
             cd ansible
-            ansible-playbook -i ~/inventory.txt deploy-app.yml
+            ansible-playbook --extra-vars="BACKEND_URL=$BACKEND_ENDPOINT" -i ~/inventory.txt deploy-app.yml
           no_output_timeout: 5m
 
 workflows:

@@ -253,6 +253,7 @@ jobs:
           root: ~/
           paths:
             - backend_elb_dns.txt
+            - backend_elb_dns_value.txt
 
   deploy-docker:
     docker:
@@ -272,9 +273,9 @@ jobs:
       - run:
           name: Get backend url and set it to environment variables
           command: |
-            BACKEND_ENDPOINT=$( cat ~/backend_elb_dns.txt )
+            BACKEND_ENDPOINT=$( cat ~/backend_elb_dns_value.txt )
             echo "Backend URL: $BACKEND_ENDPOINT"
-            echo 'export BACKEND_URL="$BACKEND_ENDPOINT"' >> $BASH_ENV
+            echo 'export BACKEND_URL=$BACKEND_ENDPOINT' >> $BASH_ENV
       - run:
           name: Deploy newest Docker Image
           command: |

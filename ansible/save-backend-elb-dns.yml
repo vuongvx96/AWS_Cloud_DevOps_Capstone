@@ -6,6 +6,12 @@
   become: yes
   vars:
     ENVIRONMENT_NAME: "{{ lookup('env', 'ENVIRONMENT_NAME') }}"
+  pre_tasks:
+    - name: "Install 'jq'"
+      apt:
+        name: [ "jq" ]
+        state: latest
+        update_cache: yes
   tasks:
     - name: Get the Backend LoadBalancer's DNS name
       shell: "./bin/kubectl get svc {{ ENVIRONMENT_NAME }}-backend-service"
@@ -17,4 +23,16 @@
       copy:
         content: "{{ backend_elb_dns.stdout }}"
         dest: "~/backend_elb_dns.txt"
+      delegate_to: localhost
+
+    - name: Extract Backend LoadBalancer's DNS name
+      shell: "./bin/kubectl get svc {{ ENVIRONMENT_NAME }}-backend-service -o json | jq -r .status.loadBalancer.ingress[].hostname"
+      register: backend_elb_dns_value
+      args:
+        chdir: $HOME
+
+    - name: Copy the output to a local file
+      copy:
+        content: "{{ backend_elb_dns_value.stdout }}"
+        dest: "~/backend_elb_dns_value.txt"
       delegate_to: localhost

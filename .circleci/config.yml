@@ -100,7 +100,7 @@ jobs:
           name: Build docker containers
           command: |
             docker build -f GloboTicket.TicketManagement.Api/Dockerfile --tag=$DOCKER_BACKEND_IMAGE_NAME .
-            cd GloboTicket.TicketManagement.App && docker build -f --tag=$DOCKER_FRONTEND_IMAGE_NAME .
+            cd GloboTicket.TicketManagement.App && docker build --tag=$DOCKER_FRONTEND_IMAGE_NAME .
             docker image ls
       - run:
           name: Upload Docker to Dockerhub

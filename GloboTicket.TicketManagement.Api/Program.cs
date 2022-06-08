@@ -74,6 +74,12 @@ namespace GloboTicket.TicketManagement.Api
                     {
                         options.ConfigureEndpointDefaults(lo => lo.Protocols = HttpProtocols.Http1AndHttp2);
                     });
+                })
+                .ConfigureAppConfiguration((context, config) =>
+                {
+                    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: false);
+                    config.AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: false);
+                    config.AddJsonFile("appsettings.k8s.json", optional: true, reloadOnChange: false);
                 });
     }
 }

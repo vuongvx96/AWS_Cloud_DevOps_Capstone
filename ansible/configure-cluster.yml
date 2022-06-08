@@ -6,6 +6,20 @@
   become: yes
   vars:
     ENVIRONMENT_NAME: "{{ lookup('env', 'ENVIRONMENT_NAME') }}"
+    DB_HOST: "{{ lookup('env','DB_HOST') }}"
+    DB_USERNAME: "{{ lookup('env','DB_USERNAME') }}"
+    DB_PASSWORD: "{{ lookup('env','DB_PASSWORD') }}"
+    DB_NAME: "{{ lookup('env','DB_NAME') }}"
+    IDENTITY_DB_NAME: "{{ lookup('env','IDENTITY_DB_NAME') }}"
+    DB_PORT: "{{ lookup('env','DB_PORT') }}"
+    EMAIL_FROMADDRESS: "{{ lookup('env','EMAIL_FROMADDRESS') }}"
+    EMAIL_APIKEY: "{{ lookup('env','EMAIL_APIKEY') }}"
+    EMAIL_FROMNAME: "{{ lookup('env','EMAIL_FROMNAME') }}"
+    JWT_SECRECT_KEY: "{{ lookup('env','JWT_SECRECT_KEY') }}"
+    JWT_ISSUER: "{{ lookup('env','JWT_ISSUER') }}"
+    JWT_AUDIENCE: "{{ lookup('env','JWT_AUDIENCE') }}"
+    JWT_EXPIRE_TIME: "{{ lookup('env','JWT_EXPIRE_TIME') }}"
   roles:
+    - update-configmap
     - capstone-deployment
     - capstone-service

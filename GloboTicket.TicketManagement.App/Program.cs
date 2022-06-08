@@ -18,17 +18,17 @@ builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 
+builder.Services
+    .AddScoped<IEventDataService, EventDataService>()
+    .AddScoped<ICategoryDataService, CategoryDataService>()
+    .AddScoped<IOrderDataService, OrderDataService>()
+    .AddScoped<IAuthenticationService, AuthenticationService>();
+
 builder.Services.AddSingleton(new HttpClient
 {
-    BaseAddress = new Uri("https://localhost:5001"),
-    DefaultRequestVersion = new Version(2, 0)
-}); ;
+    BaseAddress = new Uri(builder.Configuration["apiUrl"] ?? "http://localhost:5000")
+});
 
-builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri("https://localhost:5001"));
-
-builder.Services.AddScoped<IEventDataService, EventDataService>();
-builder.Services.AddScoped<ICategoryDataService, CategoryDataService>();
-builder.Services.AddScoped<IOrderDataService, OrderDataService>();
-builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri(builder.Configuration["apiUrl"] ?? "http://localhost:5000"));
 
 await builder.Build().RunAsync();

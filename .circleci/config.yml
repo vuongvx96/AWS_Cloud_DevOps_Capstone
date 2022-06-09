@@ -311,6 +311,7 @@ jobs:
           command: |
             apk add --update ansible
             apk --no-cache add curl
+            apk --no-cache add jq
             ansible-galaxy collection install kubernetes.core
             ansible-galaxy collection install cloud.common
       - run:

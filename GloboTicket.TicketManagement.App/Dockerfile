@@ -12,5 +12,6 @@ RUN dotnet publish GloboTicket.TicketManagement.App.csproj -c Release -o /app/pu
 
 FROM nginx:alpine AS final
 WORKDIR /usr/share/nginx/html
+ENV ASPNETCORE_ENVIRONMENT Production
 COPY --from=publish /app/publish/wwwroot .
 COPY nginx.conf /etc/nginx/nginx.conf

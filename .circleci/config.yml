@@ -3,6 +3,18 @@ orbs:
   slack: circleci/slack@4.1
   sonarcloud: sonarsource/sonarcloud@1.0.3
 
+commands:
+  destroy-environments:
+    description: Destroy cloudformation stacks.
+    steps:
+      - run:
+          name: Destroy environments
+          when: on_fail
+          command: |
+            aws cloudformation delete-stack --stack-name ${ENVIRONMENT_NAME}-eks-management
+            aws cloudformation delete-stack --stack-name ${ENVIRONMENT_NAME}-eks-nodegroup
+            aws cloudformation delete-stack --stack-name ${ENVIRONMENT_NAME}-eks-cluster
+            aws cloudformation delete-stack --stack-name ${ENVIRONMENT_NAME}-eks-network
 jobs:
   linting:
     docker:
@@ -15,6 +27,9 @@ jobs:
       - run:
           name: Run Code Linting
           command: dotnet build --no-incremental
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
 
   build-backend:
     docker:
@@ -34,6 +49,9 @@ jobs:
           paths:
             - /root/.nuget/packages
           key: dotnet-packages-v1-{{ checksum "GloboTicket.TicketManagement.Api/GloboTicket.TicketManagement.Api.csproj" }}
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
 
   build-frontend:
     docker:
@@ -53,6 +71,9 @@ jobs:
           paths:
             - /root/.nuget/packages
           key: dotnet-packages-v1-{{ checksum "GloboTicket.TicketManagement.App/GloboTicket.TicketManagement.App.csproj" }}
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
 
   unit-test:
     docker:
@@ -65,6 +86,9 @@ jobs:
       - run:
           name: Run Application Unit Tests
           command: dotnet test GloboTicket.TicketManagement.Application.UnitTests
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
 
   integration-test:
     docker:
@@ -80,6 +104,9 @@ jobs:
       - run:
           name: Run API Integration Tests
           command: dotnet test GloboTicket.TicketManagement.API.IntegrationTests
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
 
   sonarqube-scan:
     docker:
@@ -87,6 +114,9 @@ jobs:
     steps:
       - checkout
       - sonarcloud/scan
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
 
   upload-docker:
     docker:
@@ -111,6 +141,9 @@ jobs:
             docker tag $DOCKER_FRONTEND_IMAGE_NAME $DOCKERHUB_USERNAME/$DOCKER_FRONTEND_IMAGE_NAME:$CIRCLE_WORKFLOW_ID
             docker push $DOCKERHUB_USERNAME/$DOCKER_BACKEND_IMAGE_NAME:$CIRCLE_WORKFLOW_ID
             docker push $DOCKERHUB_USERNAME/$DOCKER_FRONTEND_IMAGE_NAME:$CIRCLE_WORKFLOW_ID
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
 
   deploy-infrastructure:
     docker:
@@ -176,6 +209,10 @@ jobs:
           paths:
             - inventory.txt
             - checkIfDeployed.txt
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - destroy-environments
 
   configure-infrastructure:
     docker:
@@ -202,6 +239,9 @@ jobs:
                 cd ansible
                 ansible-playbook -i ~/inventory.txt configure-server.yml
               fi
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
 
   configure-cluster:
     docker:
@@ -254,6 +294,9 @@ jobs:
           paths:
             - backend_elb_dns.txt
             - backend_elb_dns_value.txt
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
 
   deploy-docker:
     docker:
@@ -285,6 +328,12 @@ jobs:
             cd ansible
             ansible-playbook --extra-vars="BACKEND_URL=$BACKEND_ENDPOINT" -i ~/inventory.txt deploy-app.yml
           no_output_timeout: 5m
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
 
 workflows:
   default:

@@ -1,7 +1,7 @@
 # Udacity AWS DevOps Capstone Project
 [![CircleCI](https://circleci.com/gh/vuongvx96/AWS_Cloud_DevOps_Capstone.svg?style=svg)](https://circleci.com/gh/vuongvx96/AWS_Cloud_DevOps_Capstone/tree/master)
 
-[![SonarQube](https://sonarcloud.io/api/project_badges/measure?project=vuongvx96_AWS_Cloud_DevOps_Capstone&metric=alert_status)](https://sonarcloud.io/dashboard?id=vuongvx96_AWS_Cloud_DevOps_Capstone)
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/summary/new_code?id=vuongvx96_AWS_Cloud_DevOps_Capstone)
 
 
 # Links

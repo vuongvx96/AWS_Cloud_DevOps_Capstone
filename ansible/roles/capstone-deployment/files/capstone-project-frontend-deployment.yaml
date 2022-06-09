@@ -26,5 +26,5 @@ spec:
             - containerPort: 80
           volumeMounts:
             - name: globoticket-app-config-volume
-              mountPath: /usr/share/nginx/html/appsettings.Production.json
-              subPath: appsettings.Production.json
+              mountPath: /usr/share/nginx/html/appsettings.json
+              subPath: appsettings.json

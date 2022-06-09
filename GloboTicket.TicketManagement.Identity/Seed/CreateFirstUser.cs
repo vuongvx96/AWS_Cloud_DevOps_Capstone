@@ -10,17 +10,17 @@ namespace GloboTicket.TicketManagement.Identity.Seed
         {
             var applicationUser = new ApplicationUser
             {
-                FirstName = "John",
-                LastName = "Smith",
-                UserName = "johnsmith",
-                Email = "john@test.com",
+                FirstName = "Vuong",
+                LastName = "Vo",
+                UserName = "vuongvx",
+                Email = "vuongvx@test.com",
                 EmailConfirmed = true
             };
 
             var user = await userManager.FindByEmailAsync(applicationUser.Email);
             if (user == null)
             {
-                await userManager.CreateAsync(applicationUser, "Plural&01?");
+                await userManager.CreateAsync(applicationUser, "Udacity");
             }
         }
     }

@@ -24,10 +24,7 @@ builder.Services
     .AddScoped<IOrderDataService, OrderDataService>()
     .AddScoped<IAuthenticationService, AuthenticationService>();
 
-builder.Services.AddSingleton(new HttpClient
-{
-    BaseAddress = new Uri(builder.Configuration["apiUrl"] ?? "http://localhost:5000")
-});
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration["apiUrl"] ?? "http://localhost:5000") });
 
 builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri(builder.Configuration["apiUrl"] ?? "http://localhost:5000"));
 

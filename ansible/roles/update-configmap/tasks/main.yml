@@ -56,7 +56,7 @@
       metadata:
         name: globoticket-app-config
       data:
-        appsettings.Production.json: "{{ frontendsettings | to_json }}"
+        appsettings.json: "{{ frontendsettings | to_json }}"
     apply: yes
     server_side_apply:
       field_manager: ansible

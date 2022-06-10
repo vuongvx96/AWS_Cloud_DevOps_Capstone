@@ -52,6 +52,8 @@ The project's goal is to apply the skills and knowledge that I developed through
 
 ## Application
 
+I used source code from my other interesting course [Architecting ASP.NET Core 3 Applications: Best Practices](https://www.pluralsight.com/courses/architecting-asp-dot-net-core-applications-best-practices). This app is building a ticket management system for events. The backend uses the ASP.NET Core Restful API, and the frontend uses Blazor WebAssembly.
+
 ## Kubernetes Cluster
 
 I used AWS Cloudformation to deploy the Kubernetes Cluster. I have researched and customized based on these templates and documents:
@@ -103,3 +105,29 @@ I have used CircleCI to define pipelines including:
 * Slack notify when pipeline failed, deployment success
 
 ![CircleCI Pipeline](./screenshots/screenshot_complete_circleci.png)
+
+## Access the Application
+
+After the EKS-Cluster has been successfully configured using Ansible within the CI/CD Pipeline, I checked the deployment and service as follows:
+
+```
+$ kubectl get deploy,svc,pods
+NAME                                                   READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/capstone-project-backend-deployment    2/2     2            2           31h
+deployment.apps/capstone-project-frontend-deployment   2/2     2            2           31h
+
+NAME                                        TYPE           CLUSTER-IP      EXTERNAL-IP                                                               PORT(S)        AGE
+service/capstone-project-backend-service    LoadBalancer   10.100.50.170   ad202d75462044bcc92cfafc1cfef81b-2093070563.us-east-1.elb.amazonaws.com   80:30734/TCP   31h
+service/capstone-project-frontend-service   LoadBalancer   10.100.97.87    a6cd963bdc9c14fa282301cc33b22f8e-1955870495.us-east-1.elb.amazonaws.com   80:30862/TCP   31h
+service/kubernetes                          ClusterIP      10.100.0.1      <none>                                                                    443/TCP        31h
+
+NAME                                                       READY   STATUS    RESTARTS   AGE
+pod/capstone-project-backend-deployment-5d7f8cc6f4-d2wjq   1/1     Running   0          6m44s
+pod/capstone-project-backend-deployment-5d7f8cc6f4-sbns5   1/1     Running   0          6m48s
+pod/capstone-project-frontend-deployment-d895f5db8-fvp7d   1/1     Running   0          6m38s
+pod/capstone-project-frontend-deployment-d895f5db8-qlpbw   1/1     Running   0          6m9s
+```
+
+Public Loader Balancer's DNS: http://ad202d75462044bcc92cfafc1cfef81b-2093070563.us-east-1.elb.amazonaws.com/swagger/index.html
+
+![CircleCI Pipeline](./screenshots/screenshot_access_loadbalancer.png)
